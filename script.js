@@ -92,29 +92,37 @@ class Menu {
         this.lists.push(new BookList(name));
     }
 
+
     viewBookList() {
         let index = prompt('Enter the index of the list you wish to view:');
         if (index > -1 && index < this.lists.length) {
             this.selectedList = this.lists[index];
             let description = `List Name: ${this.selectedList.name}\n`;
             this.selectedList.books.forEach((book, i) => {
-                description += `${i} ${book.title} - ${book.author}\n`;
+                description += `${i}: ${book.title} - ${book.genre}\n`;
             });
-
-            let selection = this.showBookMenuOptions(description);
-            switch (selection) {
-                case '1':
-                    this.createBook();
-                    break;
-                case '2':
-                    this.deleteBook();
-                    break;
-                default:
-                    alert('Invalid selection.');
-            }
+    
+            let selection;
+            do {
+                selection = prompt(this.showBookMenuOptions(description));
+                switch (selection) {
+                    case '1':
+                        this.createBook();
+                        break;
+                    case '2':
+                        this.deleteBook();
+                        break;
+                    case '0': // Added condition to exit loop when '0' is selected
+                        break;
+                    default:
+                        if (selection !== null) {
+                            alert('Invalid selection.');
+                        }
+                }
+            } while (selection !== '0');
         }
     }
-
+    
     deleteBookList() {
         let index = prompt('Enter the index of the list you wish to delete:');
         if (index > -1 && index < this.lists.length) {
